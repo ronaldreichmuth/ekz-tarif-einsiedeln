@@ -20,8 +20,6 @@
   </style>
 </head>
 <body>
-  <h1>Dynamischer Strompreis</h1>
-
   <div id="controls">
     <input type="date" id="dateInput">
     <button onclick="loadData()">🔄 Laden</button>
