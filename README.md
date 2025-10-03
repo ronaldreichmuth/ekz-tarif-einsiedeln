@@ -20,7 +20,7 @@
   </style>
 </head>
 <body>
-  <h1>EKZ Strompreise</h1>
+  <h1>Dynamischer Strompreis</h1>
 
   <div id="controls">
     <input type="date" id="dateInput">
