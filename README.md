@@ -34,6 +34,7 @@
   <div id="container"></div>
 
   <script>
+    // Hilfsfunktion: ISO mit korrektem Offset
     function toIsoWithOffset(date) {
       const tzo = -date.getTimezoneOffset();
       const dif = tzo >= 0 ? "+" : "-";
@@ -48,13 +49,29 @@
         ":" + pad(tzo%60);
     }
 
+    // Korrekte Zeitspanne Mitternacht–Mitternacht in Europe/Zurich
+    function getZurichDayRange(dateStr) {
+      const date = new Date(dateStr);
+      const tz = "Europe/Zurich";
+
+      const dateFormatter = new Intl.DateTimeFormat("en-CA", {
+        timeZone: tz,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      });
+
+      const formatted = dateFormatter.format(date); // yyyy-mm-dd
+      const start = new Date(formatted + "T00:00:00");
+      const end = new Date(start.getTime() + 24 * 60 * 60 * 1000 - 1000);
+      return { start, end };
+    }
+
     async function loadData() {
       const input = document.getElementById("dateInput").value;
       if (!input) return;
 
-      const start = new Date(input + "T00:00:00");
-      const end   = new Date(input + "T23:59:59");
-
+      const { start, end } = getZurichDayRange(input);
       const startIso = toIsoWithOffset(start);
       const endIso   = toIsoWithOffset(end);
 
