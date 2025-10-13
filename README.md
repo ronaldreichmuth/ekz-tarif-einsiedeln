@@ -34,6 +34,11 @@
   <div id="container"></div>
 
   <script>
+    // Highcharts in Browser-Lokalzeit anzeigen (nicht UTC)
+    Highcharts.setOptions({
+      time: { useUTC: false }
+    });
+
     // Hilfsfunktion: ISO mit korrektem Offset
     function toIsoWithOffset(date) {
       const tzo = -date.getTimezoneOffset();
@@ -105,9 +110,15 @@
         document.getElementById("avg").textContent = `${avgVal.toFixed(5)} CHF/kWh`;
 
         Highcharts.chart('container', {
+          time: { useUTC: false }, // Lokalzeit
           chart: { zoomType: 'x', backgroundColor: 'white' },
           title: { text: `Tarifpreise für ${input}` },
-          xAxis: { type: 'datetime', title: { text: 'Zeit' } },
+          xAxis: {
+            type: 'datetime',
+            title: { text: 'Zeit' },
+            min: start.getTime(),   // 00:00
+            max: end.getTime()      // 23:59:59
+          },
           yAxis: { title: { text: 'Preis (CHF/kWh)' } },
           tooltip: { xDateFormat: '%H:%M', valueDecimals: 5 },
           series: [{
